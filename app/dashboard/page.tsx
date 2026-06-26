@@ -3,16 +3,19 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/auth.context'
+import { useBooks, useReservations } from '@/hooks'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
-import { Book, Heart, LogOut, Calendar, User } from 'lucide-react'
+import { Book, Heart, LogOut, Calendar, User, Users, BookOpen, Clock } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
 export default function DashboardPage() {
   const { user, profile, loading, signOut } = useAuth()
   const router = useRouter()
+  const { data: books } = useBooks()
+  const { data: reservations } = useReservations()
 
   useEffect(() => {
     if (!loading && !user) {
@@ -31,6 +34,10 @@ export default function DashboardPage() {
   if (!user) {
     return null
   }
+
+  const isAdmin = profile?.role === 'ADMIN'
+  const availableBooks = books?.filter((b) => b.available_copies > 0).length || 0
+  const activeReservations = reservations?.filter((r) => r.status === 'active').length || 0
 
   return (
     <main className="min-h-screen bg-background">
@@ -62,6 +69,43 @@ export default function DashboardPage() {
             </p>
           </CardContent>
         </Card>
+
+        {isAdmin && (
+          <div className="grid md:grid-cols-4 gap-6 mt-8">
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium text-muted-foreground">Total Libros</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold">{books?.length || 0}</div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium text-muted-foreground">Disponibles</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-green-600">{availableBooks}</div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium text-muted-foreground">Reservas Activas</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold">{activeReservations}</div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium text-muted-foreground">Total Reservas</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold">{reservations?.length || 0}</div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
           <Link href="/catalog">
@@ -128,6 +172,77 @@ export default function DashboardPage() {
             </Card>
           </Link>
         </div>
+
+        {isAdmin && (
+          <div className="mt-8">
+            <h2 className="text-xl font-semibold mb-4">Panel Administrativo</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Link href="/admin/books">
+                <Card className="transition-colors hover:bg-accent cursor-pointer">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <BookOpen className="w-5 h-5" />
+                      Gestionar Libros
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">
+                      CRUD de libros
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link href="/admin/authors">
+                <Card className="transition-colors hover:bg-accent cursor-pointer">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Users className="w-5 h-5" />
+                      Gestionar Autores
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">
+                      CRUD de autores
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link href="/admin/categories">
+                <Card className="transition-colors hover:bg-accent cursor-pointer">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Book className="w-5 h-5" />
+                      Gestionar Categorías
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">
+                      CRUD de categorías
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link href="/admin/reservations">
+                <Card className="transition-colors hover:bg-accent cursor-pointer">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Clock className="w-5 h-5" />
+                      Gestionar Reservas
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">
+                      Ver y gestionar todas las reservas
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </main>
   )
