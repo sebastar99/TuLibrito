@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/auth.context'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
-import { Book, Heart, User, LogOut } from 'lucide-react'
+import { Book, Heart, LogOut, Calendar } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -80,33 +80,37 @@ export default function DashboardPage() {
             </Card>
           </Link>
 
-          <Card className="transition-colors hover:bg-accent cursor-pointer opacity-50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Heart className="w-5 h-5" />
-                Mis Favoritos
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Próximamente
-              </p>
-            </CardContent>
-          </Card>
+          <Link href="/reservations">
+            <Card className="transition-colors hover:bg-accent cursor-pointer">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calendar className="w-5 h-5" />
+                  Mis Reservas
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Gestiona tus reservas activas
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card className="transition-colors hover:bg-accent cursor-pointer opacity-50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <User className="w-5 h-5" />
-                Mi Perfil
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Próximamente
-              </p>
-            </CardContent>
-          </Card>
+          <Link href="/favorites">
+            <Card className="transition-colors hover:bg-accent cursor-pointer">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Heart className="w-5 h-5" />
+                  Mis Favoritos
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Libros guardados como favoritos
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
       </div>
     </main>

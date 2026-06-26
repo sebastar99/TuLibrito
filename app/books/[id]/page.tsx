@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useBook } from '@/hooks'
+import { useBook, useCreateReservation, useAddFavorite, useRemoveFavoriteByUserAndBook, useCheckFavorite } from '@/hooks'
 import { useAuth } from '@/contexts/auth.context'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Book, Heart, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { addDays } from 'date-fns'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,7 +18,11 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
   const router = useRouter()
   const { user } = useAuth()
   const { data: book, isLoading } = useBook(id)
-  const [isFavorite, setIsFavorite] = useState(false)
+  const { data: isFavorite } = useCheckFavorite(user?.id || '', id)
+  const createReservation = useCreateReservation()
+  const addFavorite = useAddFavorite()
+  const removeFavorite = useRemoveFavoriteByUserAndBook()
+  const [isReserving, setIsReserving] = useState(false)
 
   useEffect(() => {
     params.then((p) => setId(p.id))
@@ -124,23 +129,45 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
 
             <div className="flex gap-4">
               <Button
-                disabled={book.available_copies === 0}
+                disabled={book.available_copies === 0 || isReserving}
                 className="flex-1"
+                onClick={async () => {
+                  if (!user || !book) return
+                  setIsReserving(true)
+                  try {
+                    await createReservation.mutateAsync({
+                      user_id: user.id,
+                      book_id: book.id,
+                      due_date: addDays(new Date(), 14).toISOString(),
+                      status: 'active',
+                      reserved_at: new Date().toISOString(),
+                      returned_at: null,
+                    })
+                    alert('Libro reservado con éxito')
+                  } catch {
+                    alert('Error al reservar el libro')
+                  } finally {
+                    setIsReserving(false)
+                  }
+                }}
               >
-                {book.available_copies > 0 ? 'Reservar' : 'Sin stock'}
+                {isReserving ? 'Reservando...' : book.available_copies > 0 ? 'Reservar' : 'Sin stock'}
               </Button>
               <Button
                 variant="outline"
-                onClick={() => setIsFavorite(!isFavorite)}
+                onClick={async () => {
+                  if (!user) return
+                  if (isFavorite) {
+                    await removeFavorite.mutateAsync({ userId: user.id, bookId: id })
+                  } else {
+                    await addFavorite.mutateAsync({ user_id: user.id, book_id: id })
+                  }
+                }}
               >
                 <Heart className={`w-4 h-4 mr-2 ${isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
                 {isFavorite ? 'Guardado' : 'Guardar'}
               </Button>
             </div>
-
-            <p className="text-sm text-muted-foreground">
-              Las funcionalidades de reserva y favoritos se implementarán en la siguiente etapa.
-            </p>
           </div>
         </div>
       </div>
