@@ -3,7 +3,7 @@ import Link from "next/link";
 export function Footer() {
   return (
     <footer className="border-t bg-muted/50">
-      <div className="container flex flex-col items-center justify-between gap-4 py-8 text-center sm:flex-row sm:text-left">
+      <div className="container mx-auto px-4 sm:px-6 flex flex-col items-center justify-between gap-4 py-8 text-center sm:flex-row sm:text-left max-w-7xl">
         <div className="flex flex-col gap-1">
           <p className="font-semibold">BookReserve</p>
           <p className="text-sm text-muted-foreground">
