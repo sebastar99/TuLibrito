@@ -99,6 +99,26 @@ TuLibrito/
 - **USER**: Puede reservar libros, gestionar favoritos, ver su perfil
 - **ADMIN**: Tiene acceso a todas las funciones de USER más el panel administrativo y CRUD completo
 
+## Usuarios de Prueba
+
+Para probar la aplicación, puedes usar los siguientes usuarios de prueba:
+
+### Administrador
+- **Email**: `admin2@tulibrito.com`
+- **Contraseña**: `123456`
+- **Rol**: ADMIN
+- **Acceso**: Panel administrativo completo (libros, autores, categorías, reservas)
+
+### Usuario Normal
+- **Email**: `usuario@tulibrito.com`
+- **Contraseña**: `123456`
+- **Rol**: USER
+- **Acceso**: Catálogo, reservas, favoritos, perfil
+
+**Nota**: Estos usuarios deben ser creados ejecutando los scripts SQL en Supabase SQL Editor:
+1. Registrar los usuarios desde la aplicación (`/register`)
+2. Ejecutar `supabase/create-admin.sql` para dar rol de administrador al usuario admin2@tulibrito.com
+
 ## Despliegue
 
 ### Vercel

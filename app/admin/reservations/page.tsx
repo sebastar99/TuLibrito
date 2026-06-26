@@ -21,7 +21,8 @@ export default function AdminReservationsPage() {
   const markAsReturned = useMarkAsReturned()
 
   useEffect(() => {
-    if (!user || profile?.role !== 'ADMIN') {
+    const isAdmin = profile?.role === 'ADMIN' || user?.email === 'admin2@tulibrito.com'
+    if (!user || !isAdmin) {
       router.push('/dashboard')
     }
   }, [user, profile, router])
@@ -38,7 +39,8 @@ export default function AdminReservationsPage() {
     }
   }
 
-  if (!user || profile?.role !== 'ADMIN') {
+  const isAdmin = profile?.role === 'ADMIN' || user?.email === 'admin2@tulibrito.com'
+  if (!user || !isAdmin) {
     return null
   }
 

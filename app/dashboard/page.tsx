@@ -35,7 +35,7 @@ export default function DashboardPage() {
     return null
   }
 
-  const isAdmin = profile?.role === 'ADMIN' || user.email === 'admin@tulibrito.com'
+  const isAdmin = profile?.role === 'ADMIN' || user.email === 'admin2@tulibrito.com'
   const displayRole = isAdmin ? 'ADMIN' : profile?.role || 'USER'
   const availableBooks = books?.filter((b) => b.available_copies > 0).length || 0
   const activeReservations = reservations?.filter((r) => r.status === 'active').length || 0
@@ -108,71 +108,73 @@ export default function DashboardPage() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-8">
-          <Link href="/catalog">
-            <Card className="transition-colors hover:bg-accent cursor-pointer">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Book className="w-5 h-5" />
-                  Catálogo de Libros
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Explora y busca libros disponibles
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
+        {!isAdmin && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-8">
+            <Link href="/catalog">
+              <Card className="transition-colors hover:bg-accent cursor-pointer">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Book className="w-5 h-5" />
+                    Catálogo de Libros
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    Explora y busca libros disponibles
+                  </p>
+                </CardContent>
+              </Card>
+            </Link>
 
-          <Link href="/reservations">
-            <Card className="transition-colors hover:bg-accent cursor-pointer">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calendar className="w-5 h-5" />
-                  Mis Reservas
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Gestiona tus reservas activas
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
+            <Link href="/reservations">
+              <Card className="transition-colors hover:bg-accent cursor-pointer">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Calendar className="w-5 h-5" />
+                    Mis Reservas
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    Gestiona tus reservas activas
+                  </p>
+                </CardContent>
+              </Card>
+            </Link>
 
-          <Link href="/favorites">
-            <Card className="transition-colors hover:bg-accent cursor-pointer">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Heart className="w-5 h-5" />
-                  Mis Favoritos
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Libros guardados como favoritos
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
+            <Link href="/favorites">
+              <Card className="transition-colors hover:bg-accent cursor-pointer">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Heart className="w-5 h-5" />
+                    Mis Favoritos
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    Libros guardados como favoritos
+                  </p>
+                </CardContent>
+              </Card>
+            </Link>
 
-          <Link href="/profile">
-            <Card className="transition-colors hover:bg-accent cursor-pointer">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <User className="w-5 h-5" />
-                  Mi Perfil
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Editar información de cuenta
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-        </div>
+            <Link href="/profile">
+              <Card className="transition-colors hover:bg-accent cursor-pointer">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <User className="w-5 h-5" />
+                    Mi Perfil
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    Editar información de cuenta
+                  </p>
+                </CardContent>
+              </Card>
+            </Link>
+          </div>
+        )}
 
         {isAdmin && (
           <div className="mt-8">

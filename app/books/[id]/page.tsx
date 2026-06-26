@@ -135,7 +135,8 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
                   if (!user || !book) return
                   setIsReserving(true)
                   try {
-                    await createReservation.mutateAsync({
+                    console.log('Creando reserva con user_id:', user.id, 'book_id:', book.id)
+                    const result = await createReservation.mutateAsync({
                       user_id: user.id,
                       book_id: book.id,
                       due_date: addDays(new Date(), 14).toISOString(),
@@ -143,9 +144,11 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
                       reserved_at: new Date().toISOString(),
                       returned_at: null,
                     })
+                    console.log('Reserva creada:', result)
                     alert('Libro reservado con éxito')
-                  } catch {
-                    alert('Error al reservar el libro')
+                  } catch (error) {
+                    console.error('Error al reservar:', error)
+                    alert('Error al reservar el libro: ' + (error as Error).message)
                   } finally {
                     setIsReserving(false)
                   }

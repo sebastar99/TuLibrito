@@ -64,8 +64,9 @@ export function useCancelReservation() {
   
   return useMutation({
     mutationFn: (id: string) => reservationsService.cancel(id),
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['reservations'] })
+      queryClient.invalidateQueries({ queryKey: ['reservations', 'user'] })
       queryClient.invalidateQueries({ queryKey: ['books'] })
     },
   })

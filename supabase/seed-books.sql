@@ -25,16 +25,17 @@ INSERT INTO categories (name, description) VALUES
 -- Insertar libros (nota: necesitas los IDs de autores y categorías insertados arriba)
 -- Reemplaza los UUIDs con los IDs reales después de insertar autores y categorías
 
--- Ejemplo de inserción de libros (ajusta los UUIDs según tus datos reales)
+-- Ejemplo de inserción de libros con imágenes reales (ajusta los UUIDs según tus datos reales)
+-- Usando Open Library API que permite hotlinking
 INSERT INTO books (title, isbn, description, cover_url, author_id, category_id, total_copies, available_copies, published_year) VALUES
-('Cien años de soledad', '978-0307474728', 'Obra maestra del realismo mágico que narra la historia de la familia Buendía.', 'https://example.com/cien-anos.jpg', (SELECT id FROM authors WHERE name = 'Gabriel García Márquez'), (SELECT id FROM categories WHERE name = 'Clásicos'), 5, 5, 1967),
-('Harry Potter y la piedra filosofal', '978-0590353427', 'El primer libro de la saga del joven mago Harry Potter.', 'https://example.com/harry-potter.jpg', (SELECT id FROM authors WHERE name = 'J.K. Rowling'), (SELECT id FROM categories WHERE name = 'Fantasía'), 10, 8, 1997),
-('1984', '978-0451524935', 'Distopía clásica sobre un estado totalitario y vigilancia masiva.', 'https://example.com/1984.jpg', (SELECT id FROM authors WHERE name = 'George Orwell'), (SELECT id FROM categories WHERE name = 'Ciencia Ficción'), 3, 2, 1949),
-('Orgullo y Prejuicio', '978-0141439518', 'Novela romántica clásica sobre Elizabeth Bennet y Mr. Darcy.', 'https://example.com/orgullo-prejuicio.jpg', (SELECT id FROM authors WHERE name = 'Jane Austen'), (SELECT id FROM categories WHERE name = 'Romance'), 4, 4, 1813),
-('El resplandor', '978-0307743657', 'Novela de terror sobre un hotel aislado y su descenso a la locura.', 'https://example.com/resplandor.jpg', (SELECT id FROM authors WHERE name = 'Stephen King'), (SELECT id FROM categories WHERE name = 'Terror'), 2, 1, 1977),
-('La casa de los espíritus', '978-1501117015', 'Saga familiar que abarca varias generaciones en Chile.', 'https://example.com/casa-espiritus.jpg', (SELECT id FROM authors WHERE name = 'Isabel Allende'), (SELECT id FROM categories WHERE name = 'Ficción'), 3, 3, 1982),
-('Norwegian Wood', '978-0375704024', 'Novela de coming-of-age ambientada en el Japón de los años 60.', 'https://example.com/norwegian-wood.jpg', (SELECT id FROM authors WHERE name = 'Haruki Murakami'), (SELECT id FROM categories WHERE name = 'Ficción'), 2, 2, 1987),
-('El Señor de los Anillos', '978-0544003415', 'Trilogía épica de fantasía sobre la lucha contra el mal.', 'https://example.com/senor-anillos.jpg', (SELECT id FROM authors WHERE name = 'J.R.R. Tolkien'), (SELECT id FROM categories WHERE name = 'Fantasía'), 4, 3, 1954);
+('Cien años de soledad', '978-0307474728', 'Obra maestra del realismo mágico que narra la historia de la familia Buendía.', 'https://covers.openlibrary.org/b/isbn/9780307474728-L.jpg', (SELECT id FROM authors WHERE name = 'Gabriel García Márquez'), (SELECT id FROM categories WHERE name = 'Clásicos'), 5, 5, 1967),
+('Harry Potter y la piedra filosofal', '978-0590353427', 'El primer libro de la saga del joven mago Harry Potter.', 'https://covers.openlibrary.org/b/isbn/9780590353427-L.jpg', (SELECT id FROM authors WHERE name = 'J.K. Rowling'), (SELECT id FROM categories WHERE name = 'Fantasía'), 10, 8, 1997),
+('1984', '978-0451524935', 'Distopía clásica sobre un estado totalitario y vigilancia masiva.', 'https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg', (SELECT id FROM authors WHERE name = 'George Orwell'), (SELECT id FROM categories WHERE name = 'Ciencia Ficción'), 3, 2, 1949),
+('Orgullo y Prejuicio', '978-0141439518', 'Novela romántica clásica sobre Elizabeth Bennet y Mr. Darcy.', 'https://covers.openlibrary.org/b/isbn/9780141439518-L.jpg', (SELECT id FROM authors WHERE name = 'Jane Austen'), (SELECT id FROM categories WHERE name = 'Romance'), 4, 4, 1813),
+('El resplandor', '978-0307743657', 'Novela de terror sobre un hotel aislado y su descenso a la locura.', 'https://covers.openlibrary.org/b/isbn/9780307743657-L.jpg', (SELECT id FROM authors WHERE name = 'Stephen King'), (SELECT id FROM categories WHERE name = 'Terror'), 2, 1, 1977),
+('La casa de los espíritus', '978-1501117015', 'Saga familiar que abarca varias generaciones en Chile.', 'https://covers.openlibrary.org/b/isbn/9781501117015-L.jpg', (SELECT id FROM authors WHERE name = 'Isabel Allende'), (SELECT id FROM categories WHERE name = 'Ficción'), 3, 3, 1982),
+('Norwegian Wood', '978-0375704024', 'Novela de coming-of-age ambientada en el Japón de los años 60.', 'https://covers.openlibrary.org/b/isbn/9780375704024-L.jpg', (SELECT id FROM authors WHERE name = 'Haruki Murakami'), (SELECT id FROM categories WHERE name = 'Ficción'), 2, 2, 1987),
+('El Señor de los Anillos', '978-0544003415', 'Trilogía épica de fantasía sobre la lucha contra el mal.', 'https://covers.openlibrary.org/b/isbn/9780544003415-L.jpg', (SELECT id FROM authors WHERE name = 'J.R.R. Tolkien'), (SELECT id FROM categories WHERE name = 'Fantasía'), 4, 3, 1954);
 
 -- Verificar los datos insertados
 SELECT 'Autores:' as tipo, COUNT(*) as total FROM authors

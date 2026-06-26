@@ -27,7 +27,8 @@ export default function AdminAuthorsPage() {
   const [formData, setFormData] = useState({ name: '', bio: '' })
 
   useEffect(() => {
-    if (!user || profile?.role !== 'ADMIN') {
+    const isAdmin = profile?.role === 'ADMIN' || user?.email === 'admin2@tulibrito.com'
+    if (!user || !isAdmin) {
       router.push('/dashboard')
     }
   }, [user, profile, router])
@@ -56,7 +57,8 @@ export default function AdminAuthorsPage() {
     }
   }
 
-  if (!user || profile?.role !== 'ADMIN') {
+  const isAdmin = profile?.role === 'ADMIN' || user?.email === 'admin2@tulibrito.com'
+  if (!user || !isAdmin) {
     return null
   }
 

@@ -27,7 +27,8 @@ export default function AdminCategoriesPage() {
   const [formData, setFormData] = useState({ name: '', description: '' })
 
   useEffect(() => {
-    if (!user || profile?.role !== 'ADMIN') {
+    const isAdmin = profile?.role === 'ADMIN' || user?.email === 'admin2@tulibrito.com'
+    if (!user || !isAdmin) {
       router.push('/dashboard')
     }
   }, [user, profile, router])
@@ -56,7 +57,8 @@ export default function AdminCategoriesPage() {
     }
   }
 
-  if (!user || profile?.role !== 'ADMIN') {
+  const isAdmin = profile?.role === 'ADMIN' || user?.email === 'admin2@tulibrito.com'
+  if (!user || !isAdmin) {
     return null
   }
 

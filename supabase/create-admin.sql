@@ -1,10 +1,10 @@
--- Script para crear o convertir el usuario admin@tulibrito.com en administrador
+-- Script para crear o convertir el usuario en administrador
 -- Primero crea el usuario desde Authentication > Users o registrándote en la app.
 
 INSERT INTO profiles (id, email, full_name, role)
 SELECT id, email, COALESCE(raw_user_meta_data->>'full_name', 'Administrador'), 'ADMIN'
 FROM auth.users
-WHERE email = 'admin@tulibrito.com'
+WHERE email = 'admin2@tulibrito.com'
 ON CONFLICT (id) DO UPDATE
 SET
   email = EXCLUDED.email,
@@ -15,4 +15,4 @@ SET
 -- Verificar el cambio
 SELECT id, email, full_name, role, created_at, updated_at
 FROM profiles
-WHERE email = 'admin@tulibrito.com';
+WHERE email = 'admin2@tulibrito.com';
