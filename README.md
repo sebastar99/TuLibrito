@@ -1,36 +1,121 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BookReserve
 
-## Getting Started
+Sistema de gestión de reservas de biblioteca moderna construido con Next.js 15, Supabase y shadcn/ui.
 
-First, run the development server:
+## Características
 
+- **Autenticación de usuarios**: Registro, login, recuperación de contraseña
+- **Catálogo de libros**: Búsqueda, filtros por categoría y autor
+- **Sistema de reservas**: Reserva de libros con fecha de devolución automática
+- **Favoritos**: Guardar libros como favoritos
+- **Perfil de usuario**: Edición de información personal
+- **Panel administrativo**: Estadísticas del sistema
+- **CRUD administrativo**: Gestión completa de libros, autores, categorías y reservas
+- **Diseño responsive**: Optimizado para todos los dispositivos
+- **UI moderna**: Componentes shadcn/ui con TailwindCSS
+
+## Stack Tecnológico
+
+- **Frontend**: Next.js 15 (App Router), React 19, TypeScript
+- **Estilos**: TailwindCSS, shadcn/ui
+- **Backend**: Supabase (Base de datos, Auth, Storage)
+- **State Management**: React Context API
+- **Data Fetching**: TanStack Query (React Query)
+- **Validación**: Zod
+- **Fechas**: date-fns
+
+## Instalación
+
+1. Clonar el repositorio:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/sebastar99/TuLibrito.git
+cd TuLibrito
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Instalar dependencias:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Configurar variables de entorno:
+```bash
+cp .env.example .env
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Configurar Supabase:
+   - Crear un proyecto en [Supabase](https://supabase.com)
+   - Ejecutar el script SQL en `supabase/schema.sql`
+   - Copiar las credenciales al archivo `.env`
 
-## Learn More
+5. Ejecutar el servidor de desarrollo:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+6. Abrir [http://localhost:3000](http://localhost:3000)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Configuración de Supabase
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Sigue los pasos detallados en `supabase/SETUP.md` para configurar correctamente tu proyecto de Supabase.
 
-## Deploy on Vercel
+## Scripts Disponibles
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `npm run dev` - Iniciar servidor de desarrollo
+- `npm run build` - Compilar para producción
+- `npm start` - Iniciar servidor de producción
+- `npm run lint` - Ejecutar ESLint
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Estructura del Proyecto
+
+```
+TuLibrito/
+├── app/                    # Páginas Next.js
+│   ├── admin/             # Páginas administrativas
+│   ├── books/             # Detalle de libro
+│   ├── catalog/           # Catálogo de libros
+│   ├── dashboard/         # Dashboard principal
+│   ├── favorites/         # Favoritos del usuario
+│   ├── login/             # Página de login
+│   ├── profile/           # Perfil de usuario
+│   ├── register/          # Página de registro
+│   └── reservations/      # Reservas del usuario
+├── components/            # Componentes React
+│   ├── books/            # Componentes de libros
+│   ├── favorites/        # Componentes de favoritos
+│   ├── landing/          # Componentes de landing
+│   ├── reservations/     # Componentes de reservas
+│   └── ui/               # Componentes shadcn/ui
+├── contexts/             # Contextos React
+├── hooks/                # Custom hooks (TanStack Query)
+├── services/             # Servicios de Supabase
+├── supabase/             # Scripts y configuración de Supabase
+├── types/                # Definiciones de tipos TypeScript
+├── utils/                # Utilidades
+└── lib/                  # Configuraciones de librerías
+```
+
+## Roles de Usuario
+
+- **USER**: Puede reservar libros, gestionar favoritos, ver su perfil
+- **ADMIN**: Tiene acceso a todas las funciones de USER más el panel administrativo y CRUD completo
+
+## Despliegue
+
+### Vercel
+
+1. Conectar el repositorio a Vercel
+2. Configurar las variables de entorno en Vercel
+3. Desplegar automáticamente
+
+### Variables de Entorno Requeridas
+
+- `NEXT_PUBLIC_SUPABASE_URL` - URL del proyecto Supabase
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Clave anónima de Supabase
+
+## Contribución
+
+Las contribuciones son bienvenidas. Por favor, abre un issue o pull request para cualquier mejora.
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT.
