@@ -38,8 +38,9 @@ export function useCreateReservation() {
   return useMutation({
     mutationFn: (reservation: Omit<Reservation, 'id' | 'created_at' | 'updated_at' | 'book'>) =>
       reservationsService.create(reservation),
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['reservations'] })
+      queryClient.invalidateQueries({ queryKey: ['reservations', 'user', variables.user_id] })
       queryClient.invalidateQueries({ queryKey: ['books'] })
     },
   })
