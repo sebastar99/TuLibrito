@@ -132,10 +132,30 @@ Para probar la aplicación, puedes usar los siguientes usuarios de prueba:
 - `NEXT_PUBLIC_SUPABASE_URL` - URL del proyecto Supabase
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Clave anónima de Supabase
 
-## Contribución
+## Configuración de Base de Datos
 
-Las contribuciones son bienvenidas. Por favor, abre un issue o pull request para cualquier mejora.
+Para configurar correctamente la base de datos de Supabase, ejecuta los siguientes scripts SQL en el SQL Editor de Supabase en el orden indicado:
 
-## Licencia
+### Paso 1: Crear estructura de la base de datos
+Ejecuta `supabase/schema.sql` para crear todas las tablas necesarias.
 
-Este proyecto está bajo la Licencia MIT.
+### Paso 2: Configurar políticas RLS
+Ejecuta `supabase/rls.sql` para configurar las políticas de seguridad a nivel de fila. Esto permite que el usuario `admin2@tulibrito.com` tenga acceso administrativo.
+
+### Paso 3: Activar trigger automático de profiles
+Ejecuta `supabase/update-trigger.sql` para activar el trigger que crea automáticamente el profile cuando un usuario se registra.
+
+### Paso 4: Activar gestión automática de stock
+Ejecuta `supabase/reservation-stock-functions.sql` para crear las funciones RPC que gestionan automáticamente el stock de libros al reservar, cancelar o devolver.
+
+### Paso 5: Cargar libros de ejemplo (opcional)
+Ejecuta `supabase/seed-books.sql` para cargar libros de ejemplo con imágenes reales de Open Library.
+
+### Paso 6: Limpiar datos existentes (opcional)
+Si necesitas limpiar todos los datos existentes, ejecuta `supabase/clean-data.sql` antes de cargar nuevos datos.
+
+### Paso 7: Crear usuario administrador
+1. Regístrate en la aplicación con el email `admin2@tulibrito.com` y contraseña `123456`
+2. Ejecuta `supabase/create-admin.sql` para dar rol de administrador al usuario registrado
+
+**Nota importante**: Los scripts deben ejecutarse en el orden indicado para evitar errores de dependencia entre tablas y políticas.
