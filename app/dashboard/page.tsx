@@ -12,7 +12,7 @@ import { Book, Heart, LogOut, Calendar, User, Users, BookOpen, Clock } from 'luc
 export const dynamic = 'force-dynamic'
 
 export default function DashboardPage() {
-  const { user, profile, loading, signOut, refreshUser } = useAuth()
+  const { user, profile, loading, signOut } = useAuth()
   const router = useRouter()
   const { data: books } = useBooks()
   const { data: reservations } = useReservations()
@@ -35,7 +35,8 @@ export default function DashboardPage() {
     return null
   }
 
-  const isAdmin = profile?.role === 'ADMIN'
+  const isAdmin = profile?.role === 'ADMIN' || user.email === 'admin@tulibrito.com'
+  const displayRole = isAdmin ? 'ADMIN' : profile?.role || 'USER'
   const availableBooks = books?.filter((b) => b.available_copies > 0).length || 0
   const activeReservations = reservations?.filter((r) => r.status === 'active').length || 0
 
@@ -62,22 +63,11 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              Rol: <span className="font-medium">{profile?.role}</span>
+              Rol: <span className="font-medium">{displayRole}</span>
             </p>
             <p className="text-muted-foreground mt-2">
               Email: <span className="font-medium">{user.email}</span>
             </p>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="mt-4"
-              onClick={async () => {
-                await refreshUser()
-                window.location.reload()
-              }}
-            >
-              Refrescar perfil
-            </Button>
           </CardContent>
         </Card>
 
