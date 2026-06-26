@@ -12,7 +12,7 @@ import { Book, Heart, LogOut, Calendar, User, Users, BookOpen, Clock } from 'luc
 export const dynamic = 'force-dynamic'
 
 export default function DashboardPage() {
-  const { user, profile, loading, signOut } = useAuth()
+  const { user, profile, loading, signOut, refreshUser } = useAuth()
   const router = useRouter()
   const { data: books } = useBooks()
   const { data: reservations } = useReservations()
@@ -67,6 +67,17 @@ export default function DashboardPage() {
             <p className="text-muted-foreground mt-2">
               Email: <span className="font-medium">{user.email}</span>
             </p>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="mt-4"
+              onClick={async () => {
+                await refreshUser()
+                window.location.reload()
+              }}
+            >
+              Refrescar perfil
+            </Button>
           </CardContent>
         </Card>
 
