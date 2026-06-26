@@ -63,7 +63,7 @@ export default function AdminCategoriesPage() {
   return (
     <main className="min-h-screen bg-background">
       <header className="border-b">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center max-w-7xl">
           <Link href="/dashboard">
             <Button variant="ghost" size="sm">
               <ArrowLeft className="w-4 h-4 mr-2" />
@@ -74,7 +74,7 @@ export default function AdminCategoriesPage() {
         </div>
       </header>
 
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-4 sm:px-6 py-8 max-w-7xl">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Categorías</h2>
           <Button onClick={() => { setEditingCategory(null); setIsDialogOpen(true) }}>

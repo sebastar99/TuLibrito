@@ -46,7 +46,7 @@ export default function CatalogPage() {
   return (
     <main className="min-h-screen bg-background">
       <header className="border-b">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center max-w-7xl">
           <h1 className="text-xl font-semibold">Catálogo de Libros</h1>
           <Link href="/dashboard">
             <Button variant="outline">Volver al Dashboard</Button>
@@ -54,7 +54,7 @@ export default function CatalogPage() {
         </div>
       </header>
 
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-4 sm:px-6 py-8 max-w-7xl">
         <div className="mb-8 space-y-4">
           <div className="flex gap-4">
             <div className="relative flex-1">

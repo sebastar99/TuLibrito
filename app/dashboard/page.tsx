@@ -42,7 +42,7 @@ export default function DashboardPage() {
   return (
     <main className="min-h-screen bg-background">
       <header className="border-b">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center max-w-7xl">
           <h1 className="text-xl font-semibold">BookReserve</h1>
           <div className="flex items-center gap-4">
             <span className="text-sm text-muted-foreground">
@@ -55,7 +55,7 @@ export default function DashboardPage() {
           </div>
         </div>
       </header>
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-4 sm:px-6 py-8 max-w-7xl">
         <Card>
           <CardHeader>
             <CardTitle>Bienvenido, {profile?.full_name || 'Usuario'}</CardTitle>

@@ -9,7 +9,7 @@ const technologies = [
 
 export function Technologies() {
   return (
-    <section className="container py-24">
+    <section className="container mx-auto py-24 px-4">
       <div className="flex flex-col items-center gap-4 text-center">
         <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
           Tecnologías utilizadas
@@ -18,7 +18,7 @@ export function Technologies() {
           Construido con las mejores herramientas del ecosistema moderno.
         </p>
       </div>
-      <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
         {technologies.map((tech) => (
           <div
             key={tech.name}

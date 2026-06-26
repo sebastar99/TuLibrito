@@ -29,7 +29,7 @@ const features = [
 
 export function Features() {
   return (
-    <section className="container py-24">
+    <section className="container mx-auto py-24 px-4">
       <div className="flex flex-col items-center gap-4 text-center">
         <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
           Características principales
@@ -38,7 +38,7 @@ export function Features() {
           Todo lo que necesitas para gestionar una biblioteca moderna.
         </p>
       </div>
-      <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
         {features.map((feature) => {
           const Icon = feature.icon;
           return (

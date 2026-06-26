@@ -57,7 +57,7 @@ export default function AdminReservationsPage() {
   return (
     <main className="min-h-screen bg-background">
       <header className="border-b">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center max-w-7xl">
           <Link href="/dashboard">
             <Button variant="ghost" size="sm">
               <ArrowLeft className="w-4 h-4 mr-2" />
@@ -68,7 +68,7 @@ export default function AdminReservationsPage() {
         </div>
       </header>
 
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-4 sm:px-6 py-8 max-w-7xl">
         <h2 className="text-2xl font-bold mb-6">Todas las Reservas</h2>
 
         {isLoading ? (

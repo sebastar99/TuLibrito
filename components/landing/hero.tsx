@@ -3,8 +3,8 @@ import Link from "next/link";
 
 export function Hero() {
   return (
-    <section className="container flex flex-col items-center gap-6 py-24 text-center md:py-32">
-      <div className="flex flex-col items-center gap-4">
+    <section className="container mx-auto flex flex-col items-center gap-6 py-24 text-center md:py-32 px-4">
+      <div className="flex flex-col items-center gap-4 w-full max-w-4xl">
         <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-6xl">
           Sistema profesional de reservas de libros
         </h1>
