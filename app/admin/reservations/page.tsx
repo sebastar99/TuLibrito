@@ -78,9 +78,9 @@ export default function AdminReservationsPage() {
             {reservations?.map((reservation) => (
               <Card key={reservation.id}>
                 <CardContent className="p-4">
-                  <div className="flex justify-between items-start">
+                  <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
                     <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
+                      <div className="flex items-center gap-2 mb-2 flex-wrap">
                         <h3 className="font-semibold">{reservation.book?.title}</h3>
                         <Badge className={statusColors[reservation.status]}>
                           {statusLabels[reservation.status]}
@@ -91,12 +91,12 @@ export default function AdminReservationsPage() {
                       <p className="text-sm text-muted-foreground">Devolución: {formatDate(reservation.due_date)}</p>
                     </div>
                     {reservation.status === 'active' && (
-                      <div className="flex gap-2">
-                        <Button variant="destructive" size="sm" onClick={() => handleCancel(reservation.id)}>
+                      <div className="flex gap-2 w-full sm:w-auto">
+                        <Button variant="destructive" size="sm" onClick={() => handleCancel(reservation.id)} className="flex-1 sm:flex-none">
                           <X className="w-4 h-4 mr-2" />
                           Cancelar
                         </Button>
-                        <Button variant="outline" size="sm" onClick={() => handleReturn(reservation.id)}>
+                        <Button variant="outline" size="sm" onClick={() => handleReturn(reservation.id)} className="flex-1 sm:flex-none">
                           <Check className="w-4 h-4 mr-2" />
                           Marcar devuelto
                         </Button>

@@ -74,9 +74,9 @@ export default function CatalogPage() {
             )}
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <Select value={selectedCategory} onValueChange={(value) => setSelectedCategory(value || 'all')} disabled={!!searchQuery}>
-              <SelectTrigger className="w-[200px]">
+              <SelectTrigger className="w-full sm:w-[200px]">
                 <SelectValue placeholder="Categoría" />
               </SelectTrigger>
               <SelectContent>
@@ -90,7 +90,7 @@ export default function CatalogPage() {
             </Select>
 
             <Select value={selectedAuthor} onValueChange={(value) => setSelectedAuthor(value || 'all')} disabled={!!searchQuery}>
-              <SelectTrigger className="w-[200px]">
+              <SelectTrigger className="w-full sm:w-[200px]">
                 <SelectValue placeholder="Autor" />
               </SelectTrigger>
               <SelectContent>

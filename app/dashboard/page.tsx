@@ -71,7 +71,7 @@ export default function DashboardPage() {
         </Card>
 
         {isAdmin && (
-          <div className="grid md:grid-cols-4 gap-6 mt-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-8">
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium text-muted-foreground">Total Libros</CardTitle>
@@ -107,7 +107,7 @@ export default function DashboardPage() {
           </div>
         )}
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-8">
           <Link href="/catalog">
             <Card className="transition-colors hover:bg-accent cursor-pointer">
               <CardHeader>
@@ -176,7 +176,7 @@ export default function DashboardPage() {
         {isAdmin && (
           <div className="mt-8">
             <h2 className="text-xl font-semibold mb-4">Panel Administrativo</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               <Link href="/admin/books">
                 <Card className="transition-colors hover:bg-accent cursor-pointer">
                   <CardHeader>
