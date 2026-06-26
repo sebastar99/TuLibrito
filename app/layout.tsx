@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BookReserve",
+  title: "TuLibrito",
   description: "Sistema de reservas de libros para bibliotecas.",
 };
 

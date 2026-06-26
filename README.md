@@ -1,4 +1,4 @@
-# BookReserve
+# TuLibrito
 
 Sistema de gestión de reservas de biblioteca moderna construido con Next.js 15, Supabase y shadcn/ui.
 

@@ -43,7 +43,7 @@ export default function DashboardPage() {
     <main className="min-h-screen bg-background">
       <header className="border-b">
         <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center max-w-7xl">
-          <h1 className="text-xl font-semibold">BookReserve</h1>
+          <h1 className="text-xl font-semibold">TuLibrito</h1>
           <div className="flex items-center gap-4">
             <span className="text-sm text-muted-foreground">
               {profile?.full_name || user.email}
