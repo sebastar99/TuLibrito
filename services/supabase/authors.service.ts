@@ -3,6 +3,7 @@ import type { Author } from '@/types'
 
 export const authorsService = {
   async getAll(): Promise<Author[]> {
+    if (!supabase) return []
     const { data, error } = await supabase
       .from('authors')
       .select('*')
@@ -13,6 +14,7 @@ export const authorsService = {
   },
 
   async getById(id: string): Promise<Author | null> {
+    if (!supabase) return null
     const { data, error } = await supabase
       .from('authors')
       .select('*')
@@ -24,6 +26,7 @@ export const authorsService = {
   },
 
   async create(author: Omit<Author, 'id' | 'created_at' | 'updated_at'>) {
+    if (!supabase) return { data: null, error: new Error('Supabase no está configurado') }
     const { data, error } = await supabase
       .from('authors')
       .insert(author)
@@ -34,6 +37,7 @@ export const authorsService = {
   },
 
   async update(id: string, updates: Partial<Author>) {
+    if (!supabase) return { data: null, error: new Error('Supabase no está configurado') }
     const { data, error } = await supabase
       .from('authors')
       .update(updates)
@@ -45,6 +49,7 @@ export const authorsService = {
   },
 
   async delete(id: string) {
+    if (!supabase) return { error: new Error('Supabase no está configurado') }
     const { error } = await supabase
       .from('authors')
       .delete()

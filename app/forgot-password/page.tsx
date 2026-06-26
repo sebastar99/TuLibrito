@@ -11,13 +11,13 @@ import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
 
-export default function LoginPage() {
+export default function ForgotPasswordPage() {
   const router = useRouter()
-  const { signIn } = useAuth()
+  const { resetPassword } = useAuth()
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,20 +25,40 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
-      await signIn(email, password)
-      router.push('/dashboard')
+      await resetPassword(email)
+      setSuccess(true)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al iniciar sesión')
+      setError(err instanceof Error ? err.message : 'Error al enviar email de recuperación')
     } finally {
       setLoading(false)
     }
+  }
+
+  if (success) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-background px-6">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-2xl">Email enviado</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-muted-foreground">
+              Hemos enviado un email a {email} con instrucciones para restablecer tu contraseña.
+            </p>
+            <Button onClick={() => router.push('/login')} className="w-full">
+              Volver al inicio de sesión
+            </Button>
+          </CardContent>
+        </Card>
+      </main>
+    )
   }
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-6">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl">Iniciar sesión</CardTitle>
+          <CardTitle className="text-2xl">Recuperar contraseña</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -53,33 +73,16 @@ export default function LoginPage() {
                 required
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Contraseña</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
             {error && (
               <div className="text-sm text-destructive">{error}</div>
             )}
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+              {loading ? 'Enviando...' : 'Enviar email de recuperación'}
             </Button>
           </form>
-          <div className="mt-4 text-center text-sm">
-            <Link href="/forgot-password" className="text-primary hover:underline">
-              ¿Olvidaste tu contraseña?
-            </Link>
-          </div>
           <div className="mt-4 text-center text-sm text-muted-foreground">
-            ¿No tienes cuenta?{' '}
-            <Link href="/register" className="text-primary hover:underline">
-              Regístrate
+            <Link href="/login" className="text-primary hover:underline">
+              Volver al inicio de sesión
             </Link>
           </div>
         </CardContent>

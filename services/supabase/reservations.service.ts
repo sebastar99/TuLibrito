@@ -3,6 +3,7 @@ import type { Reservation } from '@/types'
 
 export const reservationsService = {
   async getAll(): Promise<Reservation[]> {
+    if (!supabase) return []
     const { data, error } = await supabase
       .from('reservations')
       .select(`
@@ -16,6 +17,7 @@ export const reservationsService = {
   },
 
   async getByUserId(userId: string): Promise<Reservation[]> {
+    if (!supabase) return []
     const { data, error } = await supabase
       .from('reservations')
       .select(`
@@ -30,6 +32,7 @@ export const reservationsService = {
   },
 
   async getById(id: string): Promise<Reservation | null> {
+    if (!supabase) return null
     const { data, error } = await supabase
       .from('reservations')
       .select(`
@@ -44,6 +47,7 @@ export const reservationsService = {
   },
 
   async create(reservation: Omit<Reservation, 'id' | 'created_at' | 'updated_at' | 'book'>) {
+    if (!supabase) return { data: null, error: new Error('Supabase no está configurado') }
     const { data, error } = await supabase
       .from('reservations')
       .insert(reservation)
@@ -54,6 +58,7 @@ export const reservationsService = {
   },
 
   async update(id: string, updates: Partial<Reservation>) {
+    if (!supabase) return { data: null, error: new Error('Supabase no está configurado') }
     const { data, error } = await supabase
       .from('reservations')
       .update(updates)
@@ -65,6 +70,7 @@ export const reservationsService = {
   },
 
   async cancel(id: string) {
+    if (!supabase) return { data: null, error: new Error('Supabase no está configurado') }
     const { data, error } = await supabase
       .from('reservations')
       .update({ status: 'cancelled' })
@@ -76,6 +82,7 @@ export const reservationsService = {
   },
 
   async markAsReturned(id: string) {
+    if (!supabase) return { data: null, error: new Error('Supabase no está configurado') }
     const { data, error } = await supabase
       .from('reservations')
       .update({ 
@@ -90,6 +97,7 @@ export const reservationsService = {
   },
 
   async getActiveReservations(): Promise<Reservation[]> {
+    if (!supabase) return []
     const { data, error } = await supabase
       .from('reservations')
       .select(`

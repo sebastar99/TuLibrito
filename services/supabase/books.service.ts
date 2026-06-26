@@ -3,6 +3,7 @@ import type { Book } from '@/types'
 
 export const booksService = {
   async getAll(): Promise<Book[]> {
+    if (!supabase) return []
     const { data, error } = await supabase
       .from('books')
       .select(`
@@ -17,6 +18,7 @@ export const booksService = {
   },
 
   async getById(id: string): Promise<Book | null> {
+    if (!supabase) return null
     const { data, error } = await supabase
       .from('books')
       .select(`
@@ -32,6 +34,7 @@ export const booksService = {
   },
 
   async search(query: string): Promise<Book[]> {
+    if (!supabase) return []
     const { data, error } = await supabase
       .from('books')
       .select(`
@@ -47,6 +50,7 @@ export const booksService = {
   },
 
   async filterByCategory(categoryId: string): Promise<Book[]> {
+    if (!supabase) return []
     const { data, error } = await supabase
       .from('books')
       .select(`
@@ -62,6 +66,7 @@ export const booksService = {
   },
 
   async filterByAuthor(authorId: string): Promise<Book[]> {
+    if (!supabase) return []
     const { data, error } = await supabase
       .from('books')
       .select(`
@@ -77,6 +82,7 @@ export const booksService = {
   },
 
   async create(book: Omit<Book, 'id' | 'created_at' | 'updated_at' | 'author' | 'category'>) {
+    if (!supabase) return { data: null, error: new Error('Supabase no está configurado') }
     const { data, error } = await supabase
       .from('books')
       .insert(book)
@@ -87,6 +93,7 @@ export const booksService = {
   },
 
   async update(id: string, updates: Partial<Book>) {
+    if (!supabase) return { data: null, error: new Error('Supabase no está configurado') }
     const { data, error } = await supabase
       .from('books')
       .update(updates)
@@ -98,6 +105,7 @@ export const booksService = {
   },
 
   async delete(id: string) {
+    if (!supabase) return { error: new Error('Supabase no está configurado') }
     const { error } = await supabase
       .from('books')
       .delete()
@@ -107,6 +115,7 @@ export const booksService = {
   },
 
   async updateAvailableCopies(id: string, change: number) {
+    if (!supabase) return { data: null, error: new Error('Supabase no está configurado') }
     const { data, error } = await supabase.rpc('update_book_copies', {
       book_id: id,
       change: change,

@@ -3,6 +3,7 @@ import type { Profile } from '@/types'
 
 export const authService = {
   async signUp(email: string, password: string, fullName?: string) {
+    if (!supabase) return { data: null, error: new Error('Supabase no está configurado') }
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -16,6 +17,7 @@ export const authService = {
   },
 
   async signIn(email: string, password: string) {
+    if (!supabase) return { data: null, error: new Error('Supabase no está configurado') }
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -24,11 +26,13 @@ export const authService = {
   },
 
   async signOut() {
+    if (!supabase) return { error: new Error('Supabase no está configurado') }
     const { error } = await supabase.auth.signOut()
     return { error }
   },
 
   async resetPassword(email: string) {
+    if (!supabase) return { data: null, error: new Error('Supabase no está configurado') }
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/reset-password`,
     })
@@ -36,6 +40,7 @@ export const authService = {
   },
 
   async getProfile(userId: string): Promise<Profile | null> {
+    if (!supabase) return null
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
@@ -47,6 +52,7 @@ export const authService = {
   },
 
   async updateProfile(userId: string, updates: Partial<Profile>) {
+    if (!supabase) return { data: null, error: new Error('Supabase no está configurado') }
     const { data, error } = await supabase
       .from('profiles')
       .update(updates)

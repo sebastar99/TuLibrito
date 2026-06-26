@@ -3,6 +3,7 @@ import type { Favorite } from '@/types'
 
 export const favoritesService = {
   async getByUserId(userId: string): Promise<Favorite[]> {
+    if (!supabase) return []
     const { data, error } = await supabase
       .from('favorites')
       .select(`
@@ -17,6 +18,7 @@ export const favoritesService = {
   },
 
   async getById(id: string): Promise<Favorite | null> {
+    if (!supabase) return null
     const { data, error } = await supabase
       .from('favorites')
       .select(`
@@ -31,6 +33,7 @@ export const favoritesService = {
   },
 
   async create(favorite: Omit<Favorite, 'id' | 'created_at' | 'book'>) {
+    if (!supabase) return { data: null, error: new Error('Supabase no está configurado') }
     const { data, error } = await supabase
       .from('favorites')
       .insert(favorite)
@@ -41,6 +44,7 @@ export const favoritesService = {
   },
 
   async delete(id: string) {
+    if (!supabase) return { error: new Error('Supabase no está configurado') }
     const { error } = await supabase
       .from('favorites')
       .delete()
@@ -50,6 +54,7 @@ export const favoritesService = {
   },
 
   async checkFavorite(userId: string, bookId: string): Promise<boolean> {
+    if (!supabase) return false
     const { data, error } = await supabase
       .from('favorites')
       .select('id')
@@ -62,6 +67,7 @@ export const favoritesService = {
   },
 
   async removeByUserAndBook(userId: string, bookId: string) {
+    if (!supabase) return { error: new Error('Supabase no está configurado') }
     const { error } = await supabase
       .from('favorites')
       .delete()
