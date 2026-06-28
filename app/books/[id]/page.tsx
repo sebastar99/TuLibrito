@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useBook, useCreateReservation, useAddFavorite, useRemoveFavoriteByUserAndBook, useCheckFavorite } from '@/hooks'
 import { useAuth } from '@/contexts/auth.context'
+import { useModal } from '@/contexts/modal.context'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -20,6 +21,7 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
   const { data: book, isLoading } = useBook(id)
   const { data: isFavorite } = useCheckFavorite(user?.id || '', id)
   const createReservation = useCreateReservation()
+  const modal = useModal()
   const addFavorite = useAddFavorite()
   const removeFavorite = useRemoveFavoriteByUserAndBook()
   const [isReserving, setIsReserving] = useState(false)
@@ -80,8 +82,8 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
       </header>
 
       <div className="container mx-auto px-6 py-8">
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="aspect-[2/3] bg-muted rounded-lg flex items-center justify-center overflow-hidden">
+        <div className="grid md:grid-cols-[minmax(0,0.45fr)_1fr] gap-8 items-start">
+          <div className="sticky top-8 aspect-[2/3] max-h-[500px] w-full bg-muted rounded-2xl flex items-center justify-center overflow-hidden shadow-lg">
             {book.cover_url ? (
               <img
                 src={book.cover_url}
@@ -127,10 +129,10 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
               </Card>
             )}
 
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <Button
                 disabled={book.available_copies === 0 || isReserving}
-                className="flex-1"
+                className="flex-1 h-12 text-base font-semibold shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/30"
                 onClick={async () => {
                   if (!user || !book) return
                   setIsReserving(true)
@@ -145,10 +147,18 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
                       returned_at: null,
                     })
                     console.log('Reserva creada:', result)
-                    alert('Libro reservado con éxito')
+                    await modal.alert({
+                      title: 'Reserva creada',
+                      description: 'El libro fue reservado con éxito.',
+                      variant: 'success',
+                    })
                   } catch (error) {
                     console.error('Error al reservar:', error)
-                    alert('Error al reservar el libro: ' + (error as Error).message)
+                    await modal.alert({
+                      title: 'No se pudo reservar',
+                      description: 'Error al reservar el libro: ' + (error as Error).message,
+                      variant: 'error',
+                    })
                   } finally {
                     setIsReserving(false)
                   }
@@ -158,6 +168,7 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
               </Button>
               <Button
                 variant="outline"
+                className="h-12 px-6 shadow-md hover:shadow-lg"
                 onClick={async () => {
                   if (!user) return
                   if (isFavorite) {
@@ -167,7 +178,7 @@ export default function BookDetailPage({ params }: { params: Promise<{ id: strin
                   }
                 }}
               >
-                <Heart className={`w-4 h-4 mr-2 ${isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
+                <Heart className={`w-5 h-5 mr-2 ${isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
                 {isFavorite ? 'Guardado' : 'Guardar'}
               </Button>
             </div>

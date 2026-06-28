@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/auth.context'
 import { useUserReservations, useCancelReservation } from '@/hooks'
+import { useModal } from '@/contexts/modal.context'
 import { ReservationCard } from '@/components/reservations/reservation-card'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'
@@ -16,6 +17,7 @@ export default function ReservationsPage() {
   const { user } = useAuth()
   const { data: reservations, isLoading } = useUserReservations(user?.id || '')
   const cancelReservation = useCancelReservation()
+  const modal = useModal()
 
   useEffect(() => {
     if (!user) {
@@ -60,13 +62,27 @@ export default function ReservationsPage() {
                 key={reservation.id}
                 reservation={reservation}
                 onCancel={async (id) => {
-                  if (confirm('¿Estás seguro de cancelar esta reserva?')) {
-                    try {
-                      await cancelReservation.mutateAsync(id)
-                      alert('Reserva cancelada con éxito')
-                    } catch {
-                      alert('Error al cancelar la reserva')
-                    }
+                  const confirmed = await modal.confirm({
+                    title: 'Cancelar reserva',
+                    description: '¿Estás seguro de cancelar esta reserva?',
+                    variant: 'warning',
+                    confirmText: 'Cancelar reserva',
+                  })
+                  if (!confirmed) return
+
+                  try {
+                    await cancelReservation.mutateAsync(id)
+                    await modal.alert({
+                      title: 'Reserva cancelada',
+                      description: 'La reserva fue cancelada con éxito.',
+                      variant: 'success',
+                    })
+                  } catch {
+                    await modal.alert({
+                      title: 'No se pudo cancelar',
+                      description: 'Ocurrió un error al cancelar la reserva.',
+                      variant: 'error',
+                    })
                   }
                 }}
               />

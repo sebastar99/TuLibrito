@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/auth.context'
+import { useModal } from '@/contexts/modal.context'
 import { useAuthors, useCreateAuthor, useUpdateAuthor, useDeleteAuthor } from '@/hooks'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -21,6 +22,7 @@ export default function AdminAuthorsPage() {
   const createAuthor = useCreateAuthor()
   const updateAuthor = useUpdateAuthor()
   const deleteAuthor = useDeleteAuthor()
+  const modal = useModal()
 
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingAuthor, setEditingAuthor] = useState<null | { id: string; name: string; bio: string | null }>(null)
@@ -52,7 +54,13 @@ export default function AdminAuthorsPage() {
   }
 
   const handleDelete = async (id: string) => {
-    if (confirm('¿Estás seguro de eliminar este autor?')) {
+    const confirmed = await modal.confirm({
+      title: 'Eliminar autor',
+      description: '¿Estás seguro de eliminar este autor?',
+      variant: 'warning',
+      confirmText: 'Eliminar',
+    })
+    if (confirmed) {
       await deleteAuthor.mutateAsync(id)
     }
   }

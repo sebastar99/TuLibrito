@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/auth.context'
 import { useUserFavorites, useRemoveFavorite } from '@/hooks'
+import { useModal } from '@/contexts/modal.context'
 import { FavoriteCard } from '@/components/favorites/favorite-card'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'
@@ -16,6 +17,7 @@ export default function FavoritesPage() {
   const { user } = useAuth()
   const { data: favorites, isLoading } = useUserFavorites(user?.id || '')
   const removeFavorite = useRemoveFavorite()
+  const modal = useModal()
 
   useEffect(() => {
     if (!user) {
@@ -60,13 +62,27 @@ export default function FavoritesPage() {
                 key={favorite.id}
                 favorite={favorite}
                 onRemove={async (id) => {
-                  if (confirm('¿Estás seguro de eliminar este libro de favoritos?')) {
-                    try {
-                      await removeFavorite.mutateAsync(id)
-                      alert('Eliminado de favoritos')
-                    } catch {
-                      alert('Error al eliminar de favoritos')
-                    }
+                  const confirmed = await modal.confirm({
+                    title: 'Eliminar favorito',
+                    description: '¿Estás seguro de eliminar este libro de favoritos?',
+                    variant: 'warning',
+                    confirmText: 'Eliminar',
+                  })
+                  if (!confirmed) return
+
+                  try {
+                    await removeFavorite.mutateAsync(id)
+                    await modal.alert({
+                      title: 'Favorito eliminado',
+                      description: 'El libro fue eliminado de tus favoritos.',
+                      variant: 'success',
+                    })
+                  } catch {
+                    await modal.alert({
+                      title: 'No se pudo eliminar',
+                      description: 'Ocurrió un error al eliminar el favorito.',
+                      variant: 'error',
+                    })
                   }
                 }}
               />

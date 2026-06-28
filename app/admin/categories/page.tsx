@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/auth.context'
+import { useModal } from '@/contexts/modal.context'
 import { useCategories, useCreateCategory, useUpdateCategory, useDeleteCategory } from '@/hooks'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -21,6 +22,7 @@ export default function AdminCategoriesPage() {
   const createCategory = useCreateCategory()
   const updateCategory = useUpdateCategory()
   const deleteCategory = useDeleteCategory()
+  const modal = useModal()
 
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingCategory, setEditingCategory] = useState<null | { id: string; name: string; description: string | null }>(null)
@@ -52,7 +54,13 @@ export default function AdminCategoriesPage() {
   }
 
   const handleDelete = async (id: string) => {
-    if (confirm('¿Estás seguro de eliminar esta categoría?')) {
+    const confirmed = await modal.confirm({
+      title: 'Eliminar categoría',
+      description: '¿Estás seguro de eliminar esta categoría?',
+      variant: 'warning',
+      confirmText: 'Eliminar',
+    })
+    if (confirmed) {
       await deleteCategory.mutateAsync(id)
     }
   }

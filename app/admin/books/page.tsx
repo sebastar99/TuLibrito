@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/auth.context'
+import { useModal } from '@/contexts/modal.context'
 import { useBooks, useCreateBook, useUpdateBook, useDeleteBook, useCategories, useAuthors } from '@/hooks'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -25,6 +26,7 @@ export default function AdminBooksPage() {
   const createBook = useCreateBook()
   const updateBook = useUpdateBook()
   const deleteBook = useDeleteBook()
+  const modal = useModal()
 
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingBook, setEditingBook] = useState<null | { id: string; title: string; isbn: string; author_id: string | null; category_id: string | null; description: string | null; cover_url: string | null; published_year: number; total_copies: number; available_copies: number }>(null)
@@ -86,7 +88,13 @@ export default function AdminBooksPage() {
   }
 
   const handleDelete = async (id: string) => {
-    if (confirm('¿Estás seguro de eliminar este libro?')) {
+    const confirmed = await modal.confirm({
+      title: 'Eliminar libro',
+      description: '¿Estás seguro de eliminar este libro?',
+      variant: 'warning',
+      confirmText: 'Eliminar',
+    })
+    if (confirmed) {
       await deleteBook.mutateAsync(id)
     }
   }

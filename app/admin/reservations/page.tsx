@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/auth.context'
+import { useModal } from '@/contexts/modal.context'
 import { useReservations, useCancelReservation, useMarkAsReturned } from '@/hooks'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -19,6 +20,7 @@ export default function AdminReservationsPage() {
   const { data: reservations, isLoading } = useReservations()
   const cancelReservation = useCancelReservation()
   const markAsReturned = useMarkAsReturned()
+  const modal = useModal()
 
   useEffect(() => {
     const isAdmin = profile?.role === 'ADMIN' || user?.email === 'admin2@tulibrito.com'
@@ -28,13 +30,25 @@ export default function AdminReservationsPage() {
   }, [user, profile, router])
 
   const handleCancel = async (id: string) => {
-    if (confirm('¿Estás seguro de cancelar esta reserva?')) {
+    const confirmed = await modal.confirm({
+      title: 'Cancelar reserva',
+      description: '¿Estás seguro de cancelar esta reserva?',
+      variant: 'warning',
+      confirmText: 'Cancelar reserva',
+    })
+    if (confirmed) {
       await cancelReservation.mutateAsync(id)
     }
   }
 
   const handleReturn = async (id: string) => {
-    if (confirm('¿Estás seguro de marcar esta reserva como devuelta?')) {
+    const confirmed = await modal.confirm({
+      title: 'Marcar como devuelta',
+      description: '¿Estás seguro de marcar esta reserva como devuelta?',
+      variant: 'info',
+      confirmText: 'Marcar devuelta',
+    })
+    if (confirmed) {
       await markAsReturned.mutateAsync(id)
     }
   }
